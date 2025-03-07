@@ -3,9 +3,9 @@
 Generic script for installing FastQC, setting up input and output paths, and running quality control on all **.fastq.gz** files in a specified directory.
 1. Install FastQC (if not installed)
 2. Set input and output paths
-2.1 Create output directory if it doesn't exist
-3. Verify FASTQ files exist
-4. Run FastQC on all .fastq.gz files
+   + Create output directory if it doesn't exist
+4. Verify FASTQ files exist
+5. Run FastQC on all .fastq.gz files
 #### 1.1 Pre-processing
 ### 2. Procesing
 ### **Pipeline Steps**  
