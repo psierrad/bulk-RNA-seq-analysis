@@ -48,7 +48,7 @@ Generic script for installing FastQC, setting up input and output paths, and run
    - Contains expression data for different conditions and types  
    - Used to extract gene sets for GO analysis  
 
----Line 98:
+   ---Line 98:
 ```
    output_file <- paste0("/data/paula/Paula/R_studio/go_analysis/", condition1, "_", type1, "_vs_", condition2, "_", type2, "_go_enrichment_results.csv")
 ```
@@ -74,7 +74,8 @@ Generic script for installing FastQC, setting up input and output paths, and run
 6. **Iterate over all condition/type combinations**  
    - Runs pairwise GO analysis for all condition/type combinations  
    - Saves results and generates plots
- --- Lines 128-130:
+     
+   --- Lines 128-130:
 ```
    condition_code <- ifelse(condition == "Novel", "N", "F")  # NOVEL → N, FAMILIAR → F
    type_code <- ifelse(type == "input", "INPT", "IP")  # INPUT → INPT, IP → IP
