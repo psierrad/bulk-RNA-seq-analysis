@@ -6,7 +6,17 @@ Generic script for installing FastQC, setting up input and output paths, and run
    + Create output directory if it doesn't exist
 4. Verify FASTQ files exist
 5. Run FastQC on all .fastq.gz files
-#### 1.1 Pre-processing
+#### 1.1 Pre-processing (if needed)
+
+1. Install Required Programs and Libraries  
+2. Define Directory Paths 
+3. Create Necessary Directories 
+4. Decompress FASTQ Files
+5. Adapter Trimming and Quality Filtering (Cutadapt + Fastp)  
+6. Deduplication with FastUniq 
+7. Second Quality Check with FastQC  
+8. STAR Genome Indexing (Run Once) 
+
 ### 2. Procesing
 ### **Pipeline Steps**  
 
