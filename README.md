@@ -11,7 +11,7 @@ Generic script for installing FastQC, setting up input and output paths, and run
 ### **Pipeline Steps**  
 
 1. *Install Required Programs and Libraries (Run Once)*  
-2. *Verify Installations
+2. *Verify Installations*
 3. Define Directory Paths  
 4. *Create Necessary Directories*  
 5. *STAR Genome Indexing (Run Once)*  
