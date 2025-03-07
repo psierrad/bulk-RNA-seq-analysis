@@ -1,4 +1,10 @@
 # bulk-RNA-seq-analysis
+### Pre-processing
+### Procesing
+
+#### GO ANALYSIS-R
+
+
 ### GO ANALYSIS
 Metadata File:
 The metadata file (`metadata.csv`) should be structured like this:
@@ -29,3 +35,6 @@ Condition and Type mappings** (lines 128-130) are set dynamically but may need a
    condition_code <- ifelse(condition == "Novel", "N", "F")  # NOVEL → N, FAMILIAR → F
    type_code <- ifelse(type == "input", "INPT", "IP")  # INPUT → INPT, IP → IP
    column_name <- paste(condition_code, type_code, sep = "_")
+
+#### Analysis and visualization-R
+#### Genes to LS clusters -PYTHON
