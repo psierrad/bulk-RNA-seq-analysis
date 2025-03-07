@@ -1,0 +1,160 @@
+# install once 
+sudo apt update && sudo apt install -y wget curl unzip gzip jq 
+sudo apt install -y star 
+sudo apt install -y samtools 
+sudo apt install -y subread 
+sudo apt install -y fastqc 
+pip install cutadapt 
+wget http://opengene.org/fastp/fastp && chmod +x fastp && sudo mv fastp /usr/local/bin/
+wget https://sourceforge.net/projects/fastuniq/files/FastUniq-1.1.tar.gz && tar -xvzf FastUniq-1.1.tar.gz && cd FastUniq-1.1 && make && sudo mv fastuniq /usr/local/bin/
+
+
+#Verify Installation
+STAR --version
+samtools --version
+fastqc --version
+featureCounts -v
+cutadapt --version
+fastp --version
+fastuniq 2>&1 | grep "FastUniq"
+
+
+# Define directories
+DATA_DIR="/data/paula/Paula/Folder_data"
+DEDUP_DIR="$DATA_DIR/deduplicated"
+QC_DIR="$DATA_DIR/FastQC_results"
+STAR_OUT_DIR="$DATA_DIR/STAR_results"
+GENOME_DIR="/data/paula/Paula/Reference/STAR_Index"
+GENOME_FASTA="/data/paula/Paula/Reference/Mus_musculus.GRCm39.dna.primary_assembly.fa"
+GTF_FILE="/data/paula/Paula/Reference/Mus_musculus.GRCm39.109.gtf"
+
+# Create necessary directories
+#mkdir -p "$QC_DIR" "$STAR_OUT_DIR" "$GENOME_DIR"
+
+# 1. STAR GENOME INDEXING (Only run once)
+if [ ! -d "$GENOME_DIR/SA" ]; then
+    echo "Generating genome index with STAR..."
+    STAR --runThreadN 8 \
+        --runMode genomeGenerate \
+        --genomeDir "$GENOME_DIR" \
+        --genomeFastaFiles "$GENOME_FASTA" \
+        --sjdbGTFfile "$GTF_FILE" \
+        --sjdbOverhang 99
+    echo "Genome indexing completed."
+else
+    echo "Genome index already exists. Skipping indexing."
+fi
+
+# 2. STAR ALIGNMENT
+echo "Running STAR alignment..."
+for sample in F_INPT F_IP N_INPT N_IP; do
+    echo "Processing sample: $sample"
+    STAR --runThreadN 8 \
+        --genomeDir "$GENOME_DIR" \
+        --readFilesIn "$DEDUP_DIR/${sample}_unique_R1.fastq.gz" "$DEDUP_DIR/${sample}_unique_R2.fastq.gz" \
+        --readFilesCommand zcat \
+        --outFileNamePrefix "$STAR_OUT_DIR/${sample}_" \
+        --outSAMtype BAM SortedByCoordinate
+done
+
+##############################################################
+# 3. SAMTOOLS - Quality Check on BAM files
+DATA_DIR="/data/paula/Paula/Folder_data"
+STAR_OUT_DIR="$DATA_DIR/STAR_results"
+
+echo "Checking BAM file statistics..."
+
+# Ensure STAR output directory exists
+mkdir -p "$STAR_OUT_DIR"
+
+for sample in F_INPT F_IP N_INPT N_IP; do
+    FILE="${STAR_OUT_DIR}/${sample}_Aligned.sortedByCoord.out.bam"
+    OUTPUT="${STAR_OUT_DIR}/${sample}_alignment_stats.txt"
+
+    if [[ -f "$FILE" ]]; then
+        echo "Processing: $FILE"
+        samtools flagstat "$FILE" > "$OUTPUT"
+        echo "Saved stats to: $OUTPUT"
+    else
+        echo "File not found: $FILE"
+    fi
+done
+
+echo "BAM quality checks completed."
+
+########
+
+# 3.1 Check alignment_summary OUTPUT SAMTOOLS .csv file
+echo "Sample,Total Reads,Mapped Reads (%),Properly Paired (%),Duplicates" > "$STAR_OUT_DIR/alignment_summary.csv"
+
+for sample in F_INPT F_IP N_INPT N_IP; do
+    total_reads=$(grep "in total" "$STAR_OUT_DIR/${sample}_alignment_stats.txt" | awk '{print $1}')
+    mapped_reads=$(grep "mapped (" "$STAR_OUT_DIR/${sample}_alignment_stats.txt" | head -1 | awk '{print $1}')
+    mapped_percent=$(grep "mapped (" "$STAR_OUT_DIR/${sample}_alignment_stats.txt" | head -1 | awk -F '[()]' '{print $2}')
+    properly_paired=$(grep "properly paired" "$STAR_OUT_DIR/${sample}_alignment_stats.txt" | awk '{print $1}')
+    properly_paired_percent=$(grep "properly paired" "$STAR_OUT_DIR/${sample}_alignment_stats.txt" | awk -F '[()]' '{print $2}')
+    duplicates=$(grep "duplicates" "$STAR_OUT_DIR/${sample}_alignment_stats.txt" | head -1 | awk '{print $1}')
+    
+    echo "$sample,$total_reads,$mapped_reads ($mapped_percent),$properly_paired ($properly_paired_percent),$duplicates" >> "$STAR_OUT_DIR/alignment_summary.csv"
+done
+
+##############################################################
+
+# 5. FEATURECOUNTS - Gene Expression Quantification
+GTF_FILE="/data/paula/Paula/Reference/Mus_musculus.GRCm39.109.gtf"
+
+# Run featureCounts for gene expression quantification
+echo "Running featureCounts..."
+featureCounts -T 8 \
+    -p -a "$GTF_FILE" \
+    -o "$STAR_OUT_DIR/gene_counts.txt" \
+    "$STAR_OUT_DIR"/*.bam
+
+# Rename columns in gene_counts.txt to simplify sample names
+echo "Renaming column headers..."
+sed -i 's|'"$STAR_OUT_DIR"'/F_INPT_Aligned.sortedByCoord.out.bam|F_INPT|g' "$STAR_OUT_DIR/gene_counts.txt"
+sed -i 's|'"$STAR_OUT_DIR"'/F_IP_Aligned.sortedByCoord.out.bam|F_IP|g' "$STAR_OUT_DIR/gene_counts.txt"
+sed -i 's|'"$STAR_OUT_DIR"'/N_INPT_Aligned.sortedByCoord.out.bam|N_INPT|g' "$STAR_OUT_DIR/gene_counts.txt"
+sed -i 's|'"$STAR_OUT_DIR"'/N_IP_Aligned.sortedByCoord.out.bam|N_IP|g' "$STAR_OUT_DIR/gene_counts.txt"
+
+# Convert gene_counts.txt to gene_counts.csv, ensuring the header is preserved
+echo "Converting gene_counts.txt to gene_counts.csv and removing featureCounts command..."
+
+# Extract header manually
+echo "Geneid,F_INPT,F_IP,N_INPT,N_IP" > "$STAR_OUT_DIR/gene_counts.csv"
+
+# Append data, skipping featureCounts command lines
+tail -n +3 "$STAR_OUT_DIR/gene_counts.txt" | awk 'BEGIN {OFS=","} {print $1, $7, $8, $9, $10}' >> "$STAR_OUT_DIR/gene_counts.csv"
+
+# Verify output
+echo "Cleaning up gene_counts.csv..."
+head -n 5 "$STAR_OUT_DIR/gene_counts.csv"
+head -n 5 "/data/paula/Paula/Folder_data/STAR_results/symbol_gene_counts.csv"
+
+
+# geneid to SYMBOL_GENE with Progress Printing
+#!/bin/bash
+
+# Define input and output file paths
+GENE_COUNTS="/data/paula/Paula/Folder_data/STAR_results/gene_counts.csv"
+OUTPUT_FILE="/data/paula/Paula/Folder_data/STAR_results/gene_counts_with_symbols.csv"
+
+# Create output file with header
+head -n 1 "$GENE_COUNTS" | sed 's/Geneid/Geneid,Gene_Symbol/' > "$OUTPUT_FILE"
+
+# Process each gene ID
+tail -n +2 "$GENE_COUNTS" | while IFS=, read -r gene_id rest; do
+  # Print progress
+  echo "Processing: $gene_id"
+  
+  # Fetch gene symbol from Ensembl API
+  symbol=$(curl -s "https://rest.ensembl.org/lookup/id/$gene_id?content-type=application/json" | jq -r '.display_name // empty')
+
+  # If no symbol is found, keep the Gene ID
+  [[ -z "$symbol" ]] && symbol="$gene_id"
+
+  # Append the row with the gene symbol
+  echo "$gene_id,$symbol,$rest" >> "$OUTPUT_FILE"
+done
+
+echo "Updated file saved as: $OUTPUT_FILE"
