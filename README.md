@@ -1,5 +1,6 @@
 # bulk-RNA-seq-analysis
-### 1. Pre-processing
+### 1. FastQC Installation & Execution Script
+#### 1.1 Pre-processing
 ### 2. Procesing
 ### 3. GO ANALYSIS-R
 
