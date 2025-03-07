@@ -9,7 +9,7 @@ Generic script for installing FastQC, setting up input and output paths, and run
 #### 1.1 Pre-processing (if needed)
 
 1. Install Required Programs and Libraries  
-2. Define Directory Paths
+2. Define Directory Paths **.fastq.gz** files
    + Create Necessary Directories 
 3. Decompress FASTQ Files
 4. Adapter Trimming and *Quality Filtering* **(Cutadapt + Fastp)**  
