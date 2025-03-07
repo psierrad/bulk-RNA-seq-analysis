@@ -1,3 +1,11 @@
+sudo apt update  
+sudo apt install -y gzip  
+pip install --user cutadapt  
+sudo apt install -y fastp  
+sudo apt install -y fastqc  
+sudo apt install -y fastuniq  
+sudo apt install -y star  
+
 # Define base directory
 DATA_DIR="/data/paula/Paula/Folder_data"
 DEDUP_DIR="$DATA_DIR/deduplicated"
