@@ -4,9 +4,7 @@
 
 #### GO ANALYSIS-R
 
-
-### GO ANALYSIS
-Metadata File:
+##### Metadata File:
 The metadata file (`metadata.csv`) should be structured like this:
 
 ```csv
@@ -22,15 +20,15 @@ Metadata File Path:
 --- Line 45: 
     metadata_file_path <- "/data/paula/Paula/R_studio/go_analysis/metadata.csv"
 
-Main Data File Path:
+##### Main Data File Path:
 --- Line 68:
     file_path <- "/data/paula/Paula/R_studio/go_analysis/gene_counts.csv"
 
-Output directory** (line 98) should be set to your desired location.
+##### Output directory** (line 98) should be set to your desired location.
 ---Line 98:
    output_file <- paste0("/data/paula/Paula/R_studio/go_analysis/", condition1, "_", type1, "_vs_", condition2, "_", type2, "_go_enrichment_results.csv")
 
-Condition and Type mappings** (lines 128-130) are set dynamically but may need adjustments based on how you label the conditions and types in your metadata.
+##### Condition and Type mappings** (lines 128-130) are set dynamically but may need adjustments based on how you label the conditions and types in your metadata.
 --- Lines 128-130:
    condition_code <- ifelse(condition == "Novel", "N", "F")  # NOVEL → N, FAMILIAR → F
    type_code <- ifelse(type == "input", "INPT", "IP")  # INPUT → INPT, IP → IP
