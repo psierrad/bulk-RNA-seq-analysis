@@ -1,0 +1,161 @@
+# Load necessary libraries
+library(clusterProfiler)
+library(org.Mm.eg.db)  # For mouse gene annotation
+library(readr)         # For reading CSV files
+library(ggplot2)
+library(dplyr)
+
+# FUNCTION TO PERFORM GO ENRICHMENT ANALYSIS
+perform_GO_analysis <- function(gene_set1, gene_set2, output_file, label1, label2) {
+  # Remove NA values (if any)
+  gene_set1 <- gene_set1[!is.na(gene_set1)]
+  gene_set2 <- gene_set2[!is.na(gene_set2)]
+  
+  # Create a named list of gene sets
+  gene_sets <- list(Set1 = gene_set1, Set2 = gene_set2)
+  names(gene_sets) <- c(label1, label2)  # Assign custom labels
+  
+  # Run GO enrichment for both groups
+  compare_GO <- compareCluster(gene_sets, 
+                               fun = "enrichGO", 
+                               OrgDb = org.Mm.eg.db, 
+                               ont = "ALL",  # Use "ALL" to include BP, MF, and CC
+                               pAdjustMethod = "BH", 
+                               pvalueCutoff = 0.05, 
+                               qvalueCutoff = 0.05)
+  
+  # Save the FULL results to a CSV file
+  write.csv(compare_GO@compareClusterResult, file = output_file, row.names = FALSE)
+  
+  return(compare_GO)
+}
+
+# FUNCTION TO FILTER TOP GO TERMS PER CATEGORY FOR EACH GROUP
+get_top_GO <- function(data, category, n = 10) {
+  data %>%
+    filter(ONTOLOGY == category) %>%
+    group_by(Cluster) %>%
+    slice_min(order_by = p.adjust, n = n) %>%
+    ungroup()
+}
+
+# FUNCTION TO GENERATE DOT PLOTS WITH ADJUSTED WIDTH AND PRECISE LEGEND
+plot_GO <- function(compare_result, title, showCategory = 10) {
+  # Generate the dot plot
+  p <- dotplot(compare_result, showCategory = showCategory) +
+    ggtitle(title) +
+    theme(
+      axis.text.y = element_text(size = 14),  # Smaller font for y-axis labels
+      axis.text.x = element_text(size = 10), # Adjust x-axis font if needed
+      plot.title = element_text(size = 14, face = "bold"),
+      legend.text = element_text(size = 8),
+      legend.position = "right"
+    ) +
+    scale_color_continuous(name = "p.adjust",  # Legend for p.adjust values
+                           low = "red", high = "blue",  # Color gradient
+                           guide = guide_colorbar(reverse = TRUE)) +  # Reverse color bar
+    scale_size_continuous(name = "Gene Count",  # Legend for gene count
+                          range = c(3, 8))  # Adjust dot size range
+  
+  # Print the plot
+  print(p)
+}
+
+# FUNCTION TO PROCESS AND VISUALIZE GO RESULTS
+process_and_visualize_GO <- function(compare_GO, analysis_name) {
+  # Extract results
+  go_results <- compare_GO@compareClusterResult
+  
+  # Get top terms for each ontology (BP, MF, CC)
+  top_BP <- get_top_GO(go_results, "BP", 10)
+  top_MF <- get_top_GO(go_results, "MF", 10)
+  top_CC <- get_top_GO(go_results, "CC", 10)
+  
+  # Print top terms to console
+  cat("Top Biological Process (BP) terms for", analysis_name, ":\n")
+  print(top_BP)
+  
+  cat("\nTop Molecular Function (MF) terms for", analysis_name, ":\n")
+  print(top_MF)
+  
+  cat("\nTop Cellular Component (CC) terms for", analysis_name, ":\n")
+  print(top_CC)
+  
+  # Convert each subset into a compareClusterResult object
+  compare_BP <- new("compareClusterResult", compareClusterResult = top_BP)
+  compare_MF <- new("compareClusterResult", compareClusterResult = top_MF)
+  compare_CC <- new("compareClusterResult", compareClusterResult = top_CC)
+  
+  # Generate and print plots
+  p_BP <- plot_GO(compare_BP, paste(analysis_name, "Biological Process"))
+  p_MF <- plot_GO(compare_MF, paste(analysis_name, "Molecular Function"))
+  p_CC <- plot_GO(compare_CC, paste(analysis_name, "Cellular Component"))
+  
+  print(p_BP)
+  print(p_MF)
+  print(p_CC)
+  
+  # Return the top results for further use
+  return(list(BP = top_BP, MF = top_MF, CC = top_CC))
+}
+
+# READ THE METADATA FILE THAT LABELS THE COLUMNS
+# File should include "Sample", "Condition", and "Type"
+metadata_file_path <- "/data/paula/Paula/R_studio/go_analysis/metadata.csv"
+metadata <- read_csv(metadata_file_path)
+
+# CREATE A FUNCTION TO MAP THE COLUMNS BASED ON METADATA
+get_column_mapping <- function(metadata) {
+  column_mapping <- list()
+  for (i in 1:nrow(metadata)) {
+    sample <- metadata$Sample[i]
+    condition <- metadata$Condition[i]
+    type <- metadata$Type[i]
+    column_mapping[[sample]] <- list(condition = condition, type = type)
+  }
+  return(column_mapping)
+}
+
+# READ THE MAIN DATA FILE (GENE COUNTS)
+file_path <- "/data/paula/Paula/R_studio/go_analysis/gene_counts.csv"
+data <- read_csv(file_path)
+
+# GET THE COLUMN MAPPING FROM THE METADATA
+column_mapping <- get_column_mapping(metadata)
+
+# DEFINE A FUNCTION TO GET THE COLUMNS BASED ON THE CONDITION AND TYPE
+get_gene_sets <- function(data, condition, type) {
+  condition_code <- ifelse(condition == "Novel", "N", "F")  # NOVEL → N, FAMILIAR → F
+  type_code <- ifelse(type == "input", "INPT", "IP")  # INPUT → INPT, IP → IP
+  column_name <- paste(condition_code, type_code, sep = "_")
+  
+  if (column_name %in% colnames(data)) {
+    return(data[[column_name]])
+  } else {
+    stop(paste("Column", column_name, "not found in data"))
+  }
+}
+
+# LOOP THROUGH THE CONDITION AND TYPE COMBINATIONS
+for (condition1 in unique(metadata$Condition)) {
+  for (type1 in unique(metadata$Type)) {
+    
+    for (condition2 in unique(metadata$Condition)) {
+      for (type2 in unique(metadata$Type)) {
+        
+        # GET THE GENE SETS
+        gene_set1 <- get_gene_sets(data, condition1, type1)
+        gene_set2 <- get_gene_sets(data, condition2, type2)
+        
+        # SET THE OUTPUT FILE PATH
+        output_file <- paste0("/data/paula/Paula/R_studio/go_analysis/", condition1, "_", type1, "_vs_", condition2, "_", type2, "_go_enrichment_results.csv")
+        
+        # PERFORM GO ENRICHMENT ANALYSIS
+        compare_GO <- perform_GO_analysis(gene_set1, gene_set2, output_file, paste(condition1, type1), paste(condition2, type2))
+        
+        # VISUALIZE GO RESULTS
+        process_and_visualize_GO(compare_GO, paste(condition1, type1, "vs", condition2, type2))
+      }
+    }
+  }
+}
