@@ -14,11 +14,11 @@ Generic script for installing FastQC, setting up input and output paths, and run
    + *Verify Installations*
    +  Define Directory Paths
    + Create Necessary Directories  
-2. STAR Genome Indexing (Run Once)
+2. **STAR** Genome Indexing (Run Once)
    + STAR Alignment
-3. BAM Quality Control using SAMtools
+3. BAM Quality Control using **SAMtools**
    + Generate Alignment Summary (SAMtools Output)  
-5. Gene Expression Quantification using FeatureCounts  
+5. Gene Expression Quantification using **FeatureCounts**  
 6. Add Gene Symbols to Gene Counts
 
 ### 3. GO ANALYSIS-R
