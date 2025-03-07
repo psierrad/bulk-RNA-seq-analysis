@@ -8,6 +8,18 @@ Generic script for installing FastQC, setting up input and output paths, and run
 4. Run FastQC on all .fastq.gz files
 #### 1.1 Pre-processing
 ### 2. Procesing
+### **Pipeline Steps**  
+
+1. *Install Required Programs and Libraries (Run Once)*  
+2. *Verify Installations
+3. Define Directory Paths  
+4. *Create Necessary Directories*  
+5. *STAR Genome Indexing (Run Once)*  
+6. STAR Alignment 
+7. BAM Quality Control using SAMtools  
+8. Generate Alignment Summary (SAMtools Output)  
+9. Gene Expression Quantification using FeatureCounts  
+10. Add Gene Symbols to Gene Counts
 ### 3. GO ANALYSIS-R
 
 #### GO ANALYSIS-R
