@@ -34,6 +34,37 @@ Generic script for installing FastQC, setting up input and output paths, and run
 
 ### 3. GO ANALYSIS-R
 
+1. **Metadata file:** `/data/paula/Paula/R_studio/go_analysis/metadata.csv`  
+   - Contains columns: `"Sample"`, `"Condition"`, and `"Type"`  
+   - Used to map experimental conditions and types  
+   
+2. **Gene counts file:** `/data/paula/Paula/R_studio/go_analysis/gene_counts.csv`  
+   - Contains expression data for different conditions and types  
+   - Used to extract gene sets for GO analysis  
+
+#### **Processes:**
+1. **Read and process metadata**
+   - Maps `"Condition"` (Novel/Familiar) and `"Type"` (IP/Input) to corresponding columns in gene count data  
+
+2. **Extract gene sets**  
+   - Based on `"Condition"` and `"Type"`, retrieves the corresponding column from the gene counts file  
+
+3. **Perform GO Enrichment Analysis**  
+   - Uses `clusterProfiler::compareCluster()` to compare gene sets  
+   - GO terms analyzed across **Biological Process (BP), Molecular Function (MF), and Cellular Component (CC)**  
+   - Adjusts p-values using Benjamini-Hochberg (BH) correction  
+
+4. **Filter top GO terms**  
+   - Extracts the top 10 significant GO terms per category (BP, MF, CC)  
+
+5. **Generate visualizations**  
+   - Creates dot plots for enriched GO terms  
+   - Adjusts aesthetics for better readability  
+
+6. **Iterate over all condition/type combinations**  
+   - Runs pairwise GO analysis for all condition/type combinations  
+   - Saves results and generates plots
+     
 #### GO ANALYSIS-R
 
 ##### Metadata File:
