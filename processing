@@ -1,6 +1,5 @@
 # install once 
 sudo apt update && sudo apt install -y wget curl unzip gzip jq 
-sudo apt install -y star 
 sudo apt install -y samtools 
 sudo apt install -y subread 
 sudo apt install -y fastqc 
@@ -20,13 +19,13 @@ fastuniq 2>&1 | grep "FastUniq"
 
 
 # Define directories
-DATA_DIR="/data/paula/Paula/Folder_data"
-DEDUP_DIR="$DATA_DIR/deduplicated"
-QC_DIR="$DATA_DIR/FastQC_results"
-STAR_OUT_DIR="$DATA_DIR/STAR_results"
-GENOME_DIR="/data/paula/Paula/Reference/STAR_Index"
-GENOME_FASTA="/data/paula/Paula/Reference/Mus_musculus.GRCm39.dna.primary_assembly.fa"
-GTF_FILE="/data/paula/Paula/Reference/Mus_musculus.GRCm39.109.gtf"
+DATA_DIR="*/gene_count_file/path*"
+DEDUP_DIR="$DATA_DIR/deduplicated/pathFolder*"
+QC_DIR="$DATA_DIR/FastQC_results/pathFolder**"
+STAR_OUT_DIR="$DATA_DIR/STAR_results/path*"
+GENOME_DIR="*/Reference/STAR_Index/path*"
+GENOME_FASTA="*/Mus_musculus.GRCm39.dna.primary_assembly.fa/path*"
+GTF_FILE="*/Mus_musculus.GRCm39.109.gtf/path*"
 
 # Create necessary directories
 #mkdir -p "$QC_DIR" "$STAR_OUT_DIR" "$GENOME_DIR"
