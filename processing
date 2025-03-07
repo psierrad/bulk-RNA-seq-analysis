@@ -19,13 +19,13 @@ fastuniq 2>&1 | grep "FastUniq"
 
 
 # Define directories
-DATA_DIR="*/gene_count_file/path*"
-DEDUP_DIR="$DATA_DIR/deduplicated/pathFolder*"
-QC_DIR="$DATA_DIR/FastQC_results/pathFolder**"
-STAR_OUT_DIR="$DATA_DIR/STAR_results/path*"
-GENOME_DIR="*/Reference/STAR_Index/path*"
-GENOME_FASTA="*/Mus_musculus.GRCm39.dna.primary_assembly.fa/path*"
-GTF_FILE="*/Mus_musculus.GRCm39.109.gtf/path*"
+DATA_DIR="/gene_count_file/path*"
+DEDUP_DIR="$DATA_DIR/deduplicated/pathFolder"
+QC_DIR="$DATA_DIR/FastQC_results/pathFolder"
+STAR_OUT_DIR="$DATA_DIR/STAR_results/path"
+GENOME_DIR="/Reference/STAR_Index/path"
+GENOME_FASTA="/Mus_musculus.GRCm39.dna.primary_assembly.fa/path"
+GTF_FILE="/Mus_musculus.GRCm39.109.gtf/path"
 
 # Create necessary directories
 #mkdir -p "$QC_DIR" "$STAR_OUT_DIR" "$GENOME_DIR"
