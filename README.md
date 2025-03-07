@@ -1,6 +1,7 @@
 # bulk-RNA-seq-analysis
-### Pre-processing
-### Procesing
+### 1. Pre-processing
+### 2. Procesing
+### 3. GO ANALYSIS-R
 
 #### GO ANALYSIS-R
 
