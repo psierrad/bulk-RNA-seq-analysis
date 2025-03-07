@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# 1. Install FastQC (if not installed)
+if ! command -v fastqc &> /dev/null; then
+    echo "Installing FastQC..."
+    sudo apt update && sudo apt install -y fastqc
+    echo "FastQC installation completed."
+else
+    echo "FastQC is already installed."
+fi
+
+# 2. Set input and output paths
+INPUT_DIR="/path/to/your/fastq/files"   # Change this to your FASTQ directory
+OUTPUT_DIR="/path/to/output/directory"  # Change this to your desired output directory
+
+# Create output directory if it doesn't exist
+mkdir -p "$OUTPUT_DIR"
+
+# 3. Verify FASTQ files exist
+if ls "$INPUT_DIR"/*.fastq.gz 1> /dev/null 2>&1; then
+    echo "FASTQ files found. Running FastQC..."
+else
+    echo "No FASTQ files found in $INPUT_DIR. Exiting."
+    exit 1
+fi
+
+# 4. Run FastQC on all .fastq.gz files
+fastqc -o "$OUTPUT_DIR" -t 4 "$INPUT_DIR"/*.fastq.gz
+
+echo "✅ FastQC analysis completed. Reports are in: $OUTPUT_DIR"
