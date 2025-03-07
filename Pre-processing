@@ -124,6 +124,5 @@ if [ ! -d "$GENOME_DIR/SA" ]; then echo "Generating genome index with STAR..." S
 --sjdbGTFfile "$GTF_FILE"  
 --sjdbOverhang 99 echo "Genome indexing completed." else echo "Genome index already exists. Skipping indexing." fi 
 
- STAR ALIGMENT
 
 
