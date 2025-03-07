@@ -1,0 +1,121 @@
+# Define base directory
+DATA_DIR="/data/paula/Paula/Folder_data"
+DEDUP_DIR="$DATA_DIR/deduplicated"
+
+# Ensure output directories exist
+mkdir -p "$DEDUP_DIR"
+
+# Step 0: Decompress all fastq.gz files before processing
+echo "Decompressing .fastq.gz files..."
+gunzip -v "$DATA_DIR"/*.fastq.gz
+
+echo "Decompression complete."
+
+# Step 1 & Step 2 combined: Adapter trimming + Quality filtering
+for sample in "$DATA_DIR"/*_R1_001.fastq; do
+    base=$(basename "$sample" _R1_001.fastq)
+    sample_R2="$DATA_DIR/${base}_R2_001.fastq"
+
+    if [[ -f "$sample_R2" ]]; then
+        echo "Processing: $base"
+
+        # Step 1: Run Cutadapt to trim adapters
+        cutadapt \
+            -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA \
+            -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT \
+            -o "$DATA_DIR/${base}_trimmed_R1.fastq" \
+            -p "$DATA_DIR/${base}_trimmed_R2.fastq" \
+            --minimum-length 30 \
+            --quality-cutoff 20,20 \
+            "$sample" "$sample_R2"
+
+        # Step 2: Run Fastp for quality filtering
+        fastp \
+            -i "$DATA_DIR/${base}_trimmed_R1.fastq" \
+            -I "$DATA_DIR/${base}_trimmed_R2.fastq" \
+            -o "$DATA_DIR/${base}_filtered_R1.fastq" \
+            -O "$DATA_DIR/${base}_filtered_R2.fastq" \
+            --detect_adapter_for_pe \
+            --trim_poly_g \
+            --cut_right --cut_right_window_size 4 --cut_right_mean_quality 20 \
+            --low_complexity_filter \
+            --qualified_quality_phred 20 \
+            --length_required 30 \
+            --json "$DATA_DIR/${base}_fastp.json" \
+            --html "$DATA_DIR/${base}_fastp.html"
+
+    else
+        echo "Skipping $base: Corresponding R2 file not found!"
+    fi
+done
+
+# Step 3: Deduplication with FastUniq
+for condition in "F_INPT" "F_IP" "N_INPT" "N_IP"; do
+    FILE_LIST="$DATA_DIR/${condition}_fastq_list.txt"
+    rm -f "$FILE_LIST"
+
+    # Collect all filtered R1 and R2 files for the condition
+    for file in "$DATA_DIR/${condition}_"*_filtered_R1.fastq; do
+        base=$(basename "$file" _filtered_R1.fastq)
+        if [[ -f "$DATA_DIR/${base}_filtered_R2.fastq" ]]; then
+            echo "$DATA_DIR/${base}_filtered_R1.fastq" >> "$FILE_LIST"
+            echo "$DATA_DIR/${base}_filtered_R2.fastq" >> "$FILE_LIST"
+        fi
+    done
+
+    # Run FastUniq only if paired files exist
+    if [[ -s "$FILE_LIST" ]]; then
+        fastuniq -i "$FILE_LIST" \
+                 -o "$DEDUP_DIR/${condition}_unique_R1.fastq.gz" \
+                 -p "$DEDUP_DIR/${condition}_unique_R2.fastq.gz"
+        echo "Deduplication completed for $condition"
+    else
+        echo "No files found for $condition, skipping..."
+    fi
+done
+
+2nd Fastqc 
+#!/bin/bash
+
+# Define input and output directories
+INPUT_DIR="/data/paula/Paula/Folder_data/deduplicated"
+OUTPUT_DIR="/data/paula/Paula/Folder_data/FastQC_results"
+
+# Ensure output directory exists
+mkdir -p "$OUTPUT_DIR"
+
+echo "Checking FASTQ files in $INPUT_DIR..."
+
+# Loop through all .fastq.gz files to check if they are properly gzipped
+for file in "$INPUT_DIR"/*.fastq.gz; do
+    if ! gzip -t "$file" 2>/dev/null; then
+        echo "⚠️ Warning: $file is not a valid gzip file. Recompressing..."
+        
+        # Rename to remove incorrect .gz extension
+        mv "$file" "${file%.gz}"
+        
+        # Recompress correctly
+        gzip "${file%.gz}"
+    fi
+done
+
+echo "✅ All FASTQ files are now properly gzipped."
+
+# Run FastQC
+echo "Running FastQC on deduplicated FASTQ files..."
+fastqc -o "$OUTPUT_DIR" -t 4 "$INPUT_DIR"/*.fastq.gz
+
+echo "✅ FastQC analysis completed. Reports are in: $OUTPUT_DIR"
+
+STAR GENOME INDEXING (ONLY RUN ONCE)
+
+if [ ! -d "$GENOME_DIR/SA" ]; then echo "Generating genome index with STAR..." STAR --runThreadN 8  
+--runMode genomeGenerate  
+--genomeDir "$GENOME_DIR"  
+--genomeFastaFiles "$GENOME_FASTA"  
+--sjdbGTFfile "$GTF_FILE"  
+--sjdbOverhang 99 echo "Genome indexing completed." else echo "Genome index already exists. Skipping indexing." fi 
+
+ STAR ALIGMENT
+
+
