@@ -115,3 +115,17 @@ Generic Variables for Future Experiments
 + norm_input_counts → Normalized counts for Input samples
 + ip_counts → Normalized counts for IP samples
 + Sig_bc_results → List of genes with significant differential enrichment
+
+  ### Visualization Summary: Inputs and Outputs
+
+| **Plot Type**        | **Input Data**                  | **Output Description**                                   |
+|----------------------|---------------------------------|-----------------------------------------------------------|
+| **Volcano Plot**       | `between_condition_results`     | Highlights significantly enriched genes using Log2(dER) vs -Log10(p-value) with a red threshold line at p = 0.05. |
+| **Heatmap**            | `enrichment_ratios` + `Sig_bc_results$Gene` | Displays significant genes' enrichment ratios in a clustered heatmap format. |
+| **Scatter Plot**       | `norm_input_counts` + `ip_counts` + `Sig_bc_results$Gene` | Visualizes normalized Input vs IP counts, with significant genes highlighted in red. |
+
+### Key Notes for Future Modifications
+- **Volcano Plot**: Adjust the p-value threshold (e.g., `-log10(0.01)` for stricter filtering).
+- **Heatmap**: Change clustering options or color schemes to improve visibility for large gene sets.
+- **Scatter Plot**: Modify color scales, axis limits, or density settings for clearer visualization.
+
