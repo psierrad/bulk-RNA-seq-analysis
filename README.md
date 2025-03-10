@@ -38,8 +38,8 @@ Generic script for installing FastQC, setting up input and output paths, and run
 </details>
 
 <details>
-  <summary>3. GO Analysis (R) - Lines to Modify</summary>
-
+  <summary>3. GO Analysis (R)</summary>
+To adapt this script to different experiments, modify the lines:
 1. **Metadata file:** --- Line 68:
 file_path <- "/data/paula/Paula/R_studio/go_analysis/gene_counts.csv"
 
