@@ -92,12 +92,17 @@ column_name <- paste(condition_code, type_code, sep = "_")
   <summary>4. DESeq2 analysis</summary>
 To adapt this script to different experiments, modify:
 
-1. Metadata file: Ensure it has "Sample", "Condition", and "Type" columns.
+1. Metadata file: Ensure it has "Sample", "Condition", and "Type" columns. --- Lines 11-12
 ```
 raw_counts <- read.csv("counts_file.csv", row.names = 1)  # Ensure first column contains gene names
 metadata <- read.csv("metadata_file.csv")
 ```
 3. Conditions: Update "Familiar" and "Novel" if using new conditions.
 4. Types: Ensure "Input" and "IP" match dataset terminology.
-5. Thresholds: Adjust p-value cutoff (0.05) and log2 fold change (>1) as needed.
-6. Normalization method: If needed, change from DESeq2-based normalization to another approach.
+```
+  input_metadata <- metadata[metadata$Type == "Input", ]  # Ensure 'Type' values match exactly
+input_counts <- raw_counts[, input_metadata$Sample]
+```
+
+6. Thresholds: Adjust p-value cutoff (0.05) and log2 fold change (>1) as needed.
+7. Normalization method: If needed, change from DESeq2-based normalization to another approach.
