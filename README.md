@@ -89,8 +89,8 @@ condition_code <- ifelse(condition == "Novel", "N", "F")  # NOVEL → N, FAMILIA
   <summary>4. DESeq2 analysis</summary>
 To adapt this script to different experiments, modify:
 
-Metadata file: Ensure it has "Sample", "Condition", and "Type" columns.
-Conditions: Update "Familiar" and "Novel" if using new conditions.
-Types: Ensure "Input" and "IP" match dataset terminology.
-Thresholds: Adjust p-value cutoff (0.05) and log2 fold change (>1) as needed.
-Normalization method: If needed, change from DESeq2-based normalization to another approach.
+1. Metadata file: Ensure it has "Sample", "Condition", and "Type" columns.
+2. Conditions: Update "Familiar" and "Novel" if using new conditions.
+3. Types: Ensure "Input" and "IP" match dataset terminology.
+4. Thresholds: Adjust p-value cutoff (0.05) and log2 fold change (>1) as needed.
+5. Normalization method: If needed, change from DESeq2-based normalization to another approach.
