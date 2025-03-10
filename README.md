@@ -1,49 +1,92 @@
-# Bulk RNA-seq Analysis
+# bulk-RNA-seq-analysis
 
-<details>
-  <summary>### 1. FastQC</summary>
+### 1. FastQC
 
-  **Installation & Execution**  
-  Generic script for installing FastQC, setting up input and output paths, and running quality control on all **.fastq.gz** files in a specified directory.  
+*Installation & Execution* 
+Generic script for installing FastQC, setting up input and output paths, and running quality control on all **.fastq.gz** files in a specified directory.
+1. Install FastQC (if not installed)
+2. Set input and output paths
+   + Create output directory if it doesn't exist
+4. Verify FASTQ files exist
+5. Run FastQC on all .fastq.gz files
+#### 1.1 Pre-processing (if needed)
 
-  1. Install FastQC (if not installed)  
-  2. Set input and output paths  
-     + Create output directory if it doesn't exist  
-  3. Verify FASTQ files exist  
-  4. Run FastQC on all .fastq.gz files  
+1. Install Required Programs and Libraries  
+2. Define Directory Paths **.fastq.gz** files
+   + Create Necessary Directories 
+3. Decompress FASTQ Files
+4. Adapter Trimming and *Quality Filtering* **(Cutadapt + Fastp)**  
+5. Deduplication with **FastUniq**
+   
+7. Second Quality Check with FastQC  
 
-  #### 1.1 Pre-processing (if needed)
-  1. Install Required Programs and Libraries  
-  2. Define Directory Paths for **.fastq.gz** files  
-     + Create Necessary Directories  
-  3. Decompress FASTQ Files  
-  4. Adapter Trimming and *Quality Filtering* (**Cutadapt + Fastp**)  
-  5. Deduplication with **FastUniq**  
-  6. Second Quality Check with FastQC  
+### 2. Procesing
+### **Pipeline Steps**  
 
+1. Install Required Programs and Libraries (Run Once)
+   + *Verify Installations*
+   +  Define Directory Paths
+   + Create Necessary Directories  
+2. **STAR** Genome Indexing (Run Once)
+   + STAR Alignment
+3. BAM Quality Control using **SAMtools**
+   + Generate Alignment Summary (SAMtools Output)  
+5. Gene Expression Quantification using **FeatureCounts**  
+6. Add Gene Symbols to Gene Counts
 </details>
 
 <details>
-  <summary>### 2. Processing</summary>
+### 3. GO ANALYSIS-R --lines to modify:
 
-  **Pipeline Steps**  
+1. **Metadata file:** --- Line 68:
+file_path <- "/data/paula/Paula/R_studio/go_analysis/gene_counts.csv"
 
-  1. Install Required Programs and Libraries (Run Once)  
-     + *Verify Installations*  
-     + Define Directory Paths  
-     + Create Necessary Directories  
-  2. **STAR** Genome Indexing (Run Once)  
-     + STAR Alignment  
-  3. BAM Quality Control using **SAMtools**  
-     + Generate Alignment Summary (SAMtools Output)  
-  4. Gene Expression Quantification using **FeatureCounts**  
-  5. Add Gene Symbols to Gene Counts  
+   - Contains columns: "Sample", "Condition", and "Type"  
+   - Used to map experimental conditions and types  
+   
+2. **Gene counts file:** --- Line 68:
+file_path <- "/data/paula/Paula/R_studio/go_analysis/gene_counts.csv"
+  
+   - Contains expression data for different conditions and types  
+   - Used to extract gene sets for GO analysis  
 
-</details>
+   output file---Line 98:
+output_file <- paste0("/data/paula/Paula/R_studio/go_analysis/", condition1, "_", type1, "_vs_", condition2, "_", type2, "_go_enrichment_results.csv")
 
-<details>
-  <summary>### 3. GO Analysis (R) - Lines to Modify</summary>
+#### **Processes:**
+1. **Read and process metadata**
+   - Maps "Condition" (Novel/Familiar) and "Type" (IP/Input) to corresponding columns in gene count data  
 
-  1. **Metadata file:** --- Line 68:  
-  ```r
-      file_path <- "/data/paula/Paula/R_studio/go_analysis/gene_counts.csv"
+2. **Extract gene sets**  
+   - Based on "Condition" and "Type", retrieves the corresponding column from the gene counts file  
+
+3. **Perform GO Enrichment Analysis**  
+   - Uses clusterProfiler::compareCluster() to compare gene sets  
+   - GO terms analyzed across **Biological Process (BP), Molecular Function (MF), and Cellular Component (CC)**  
+   - Adjusts p-values using Benjamini-Hochberg (BH) correction  
+
+4. **Filter top GO terms**  
+   - Extracts the top 10 significant GO terms per category (BP, MF, CC)  
+
+5. **Generate visualizations**  
+   - Creates dot plots for enriched GO terms  
+   - Adjusts aesthetics for better readability  
+
+6. **Iterate over all condition/type combinations**  
+   - Runs pairwise GO analysis for all condition/type combinations  
+   - Saves results and generates plots
+     
+  column name mapping --- Lines 128-130:
+condition_code <- ifelse(condition == "Novel", "N", "F")  # NOVEL → N, FAMILIAR → F
+   type_code <- ifelse(type == "input", "INPT", "IP")  # INPUT → INPT, IP → IP
+   column_name <- paste(condition_code, type_code, sep = "_")
+
+
+### 4. DESeq2 analysis
+To adapt this script to different experiments, modify:
+
+Metadata file: Ensure it has "Sample", "Condition", and "Type" columns.
+Conditions: Update "Familiar" and "Novel" if using new conditions.
+Types: Ensure "Input" and "IP" match dataset terminology.
+Thresholds: Adjust p-value cutoff (0.05) and log2 fold change (>1) as needed.
+Normalization method: If needed, change from DESeq2-based normalization to another approach.
