@@ -1,6 +1,7 @@
 # bulk-RNA-seq-analysis
 
-</summary>### 1. FastQC</summary>
+<details>
+  <summary>### 1. FastQC </summary>
 *Installation & Execution* 
 Generic script for installing FastQC, setting up input and output paths, and running quality control on all **.fastq.gz** files in a specified directory.
 1. Install FastQC (if not installed)
@@ -18,9 +19,9 @@ Generic script for installing FastQC, setting up input and output paths, and run
 5. Deduplication with **FastUniq**
    
 7. Second Quality Check with FastQC  
+</details>
 
 <details>
-
 ### 2. Procesing
 ### **Pipeline Steps**  
 
@@ -34,7 +35,9 @@ Generic script for installing FastQC, setting up input and output paths, and run
    + Generate Alignment Summary (SAMtools Output)  
 5. Gene Expression Quantification using **FeatureCounts**  
 6. Add Gene Symbols to Gene Counts
+</details>
 
+<details>
 ### 3. GO ANALYSIS-R --lines to modify:
 
 1. **Metadata file:** --- Line 68:
@@ -84,6 +87,9 @@ Generic script for installing FastQC, setting up input and output paths, and run
    type_code <- ifelse(type == "input", "INPT", "IP")  # INPUT → INPT, IP → IP
    column_name <- paste(condition_code, type_code, sep = "_")
 ```
+</details>
+
+<details>
 ### 4. DESeq2 analysis
 To adapt this script to different experiments, modify:
 
