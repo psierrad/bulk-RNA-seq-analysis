@@ -33,7 +33,7 @@ Generic script for installing FastQC, setting up input and output paths, and run
 5. Gene Expression Quantification using **FeatureCounts**  
 6. Add Gene Symbols to Gene Counts
 
-### 3. GO ANALYSIS-R
+### 3. GO ANALYSIS-R --lines to modify:
 
 1. **Metadata file:** --- Line 68:
 ```
@@ -49,7 +49,7 @@ Generic script for installing FastQC, setting up input and output paths, and run
    - Contains expression data for different conditions and types  
    - Used to extract gene sets for GO analysis  
 
-   ---Line 98:
+   output file---Line 98:
 ```
    output_file <- paste0("/data/paula/Paula/R_studio/go_analysis/", condition1, "_", type1, "_vs_", condition2, "_", type2, "_go_enrichment_results.csv")
 ```
@@ -76,7 +76,7 @@ Generic script for installing FastQC, setting up input and output paths, and run
    - Runs pairwise GO analysis for all condition/type combinations  
    - Saves results and generates plots
      
-   --- Lines 128-130:
+  column name mapping --- Lines 128-130:
 ```
    condition_code <- ifelse(condition == "Novel", "N", "F")  # NOVEL → N, FAMILIAR → F
    type_code <- ifelse(type == "input", "INPT", "IP")  # INPUT → INPT, IP → IP
