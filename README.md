@@ -82,4 +82,11 @@ Generic script for installing FastQC, setting up input and output paths, and run
    type_code <- ifelse(type == "input", "INPT", "IP")  # INPUT → INPT, IP → IP
    column_name <- paste(condition_code, type_code, sep = "_")
 ```
-   
+### 4. DESeq2 analysis
+To adapt this script to different experiments, modify:
+
+Metadata file: Ensure it has "Sample", "Condition", and "Type" columns.
+Conditions: Update "Familiar" and "Novel" if using new conditions.
+Types: Ensure "Input" and "IP" match dataset terminology.
+Thresholds: Adjust p-value cutoff (0.05) and log2 fold change (>1) as needed.
+Normalization method: If needed, change from DESeq2-based normalization to another approach.
