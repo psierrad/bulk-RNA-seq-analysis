@@ -93,7 +93,11 @@ column_name <- paste(condition_code, type_code, sep = "_")
 To adapt this script to different experiments, modify:
 
 1. Metadata file: Ensure it has "Sample", "Condition", and "Type" columns.
-2. Conditions: Update "Familiar" and "Novel" if using new conditions.
-3. Types: Ensure "Input" and "IP" match dataset terminology.
-4. Thresholds: Adjust p-value cutoff (0.05) and log2 fold change (>1) as needed.
-5. Normalization method: If needed, change from DESeq2-based normalization to another approach.
+```
+raw_counts <- read.csv("counts_file.csv", row.names = 1)  # Ensure first column contains gene names
+metadata <- read.csv("metadata_file.csv")
+```
+3. Conditions: Update "Familiar" and "Novel" if using new conditions.
+4. Types: Ensure "Input" and "IP" match dataset terminology.
+5. Thresholds: Adjust p-value cutoff (0.05) and log2 fold change (>1) as needed.
+6. Normalization method: If needed, change from DESeq2-based normalization to another approach.
