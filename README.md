@@ -1,6 +1,6 @@
 # bulk-RNA-seq-analysis
 <details>
-  <summary> ### 1. FastQC</summary>
+  <summary> 1. FastQC</summary>
 
 *Installation & Execution* 
 Generic script for installing FastQC, setting up input and output paths, and running quality control on all **.fastq.gz** files in a specified directory.
@@ -10,7 +10,7 @@ Generic script for installing FastQC, setting up input and output paths, and run
 4. Verify FASTQ files exist
 5. Run FastQC on all .fastq.gz files
 
-<summary>#### 1.1 Pre-processing (if needed)</summary>
+<summary>1.1 Pre-processing (if needed)</summary>
 
 1. Install Required Programs and Libraries  
 2. Define Directory Paths **.fastq.gz** files
@@ -22,7 +22,7 @@ Generic script for installing FastQC, setting up input and output paths, and run
 </details>
 
 <details>
-  <summary>### 2. Processing</summary>
+  <summary> 2. Processing</summary>
 ### **Pipeline Steps**  
 
 1. Install Required Programs and Libraries (Run Once)
@@ -38,7 +38,7 @@ Generic script for installing FastQC, setting up input and output paths, and run
 </details>
 
 <details>
-  <summary>### 3. GO Analysis (R) - Lines to Modify</summary>
+  <summary>3. GO Analysis (R) - Lines to Modify</summary>
 
 1. **Metadata file:** --- Line 68:
 file_path <- "/data/paula/Paula/R_studio/go_analysis/gene_counts.csv"
@@ -86,7 +86,7 @@ condition_code <- ifelse(condition == "Novel", "N", "F")  # NOVEL → N, FAMILIA
 </details>
 
 <details>
-  <summary>### 4. DESeq2 analysis</summary>
+  <summary>4. DESeq2 analysis</summary>
 To adapt this script to different experiments, modify:
 
 Metadata file: Ensure it has "Sample", "Condition", and "Type" columns.
