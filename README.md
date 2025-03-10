@@ -106,3 +106,12 @@ input_counts <- raw_counts[, input_metadata$Sample]
 
 6. Thresholds: Adjust p-value cutoff (0.05) and log2 fold change (>1) as needed.
 7. Normalization method: If needed, change from DESeq2-based normalization to another approach.
+
+<summary>4.1 Visualization </summary>
+
+Generic Variables for Future Experiments
++ between_condition_results → Results containing enrichment ratios and significance values
++ enrichment_ratios → Table with calculated enrichment ratios
++ norm_input_counts → Normalized counts for Input samples
++ ip_counts → Normalized counts for IP samples
++ Sig_bc_results → List of genes with significant differential enrichment
