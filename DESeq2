@@ -1,0 +1,144 @@
+## Workflow for IP enrichment analysis within conditions  (Familiar and Novel)
+## Assumption: You have a raw counts file (genes as rows, samples as columns)  
+## Metadata file must contain 'Sample', 'Condition', and 'Type' columns  
+
+# Load necessary libraries
+library(tidyverse)
+library(DESeq2)
+library(pheatmap)
+
+# Step 1: Load raw counts and metadata
+raw_counts <- read.csv("counts_file.csv", row.names = 1)  # Ensure first column contains gene names
+metadata <- read.csv("metadata_file.csv")
+
+# Ensure metadata row names match sample names
+rownames(metadata) <- metadata$Sample
+metadata <- metadata[colnames(raw_counts), ]  # Reorder to match column names in raw counts
+
+# Step 2: Normalize Input counts (only normalizing Input samples)
+input_metadata <- metadata[metadata$Type == "Input", ]  # Ensure 'Type' values match exactly
+input_counts <- raw_counts[, input_metadata$Sample]
+
+# Create DESeq2 dataset for normalization
+dds <- DESeqDataSetFromMatrix(countData = input_counts,
+                              colData = input_metadata,
+                              design = ~ Condition)
+
+# Estimate size factors for normalization
+dds <- estimateSizeFactors(dds)
+norm_input_counts <- counts(dds, normalized = TRUE)  # Normalized counts for Input samples
+
+# Step 3: Calculate enrichment ratios (IP / Input)
+ip_metadata <- metadata[metadata$Type == "IP", ]
+ip_counts <- raw_counts[, ip_metadata$Sample]
+
+# Ensure that IP and Input samples match in order
+if (!all(ip_metadata$Sample == input_metadata$Sample)) {
+  stop("Mismatch between IP and Input sample order. Check metadata.")
+}
+
+# Compute enrichment ratios
+enrichment_ratios <- ip_counts / norm_input_counts
+colnames(enrichment_ratios) <- gsub("_IP", "_ER", colnames(ip_counts))  # Rename columns
+write.csv(enrichment_ratios, "enrichment_ratios.csv", row.names = TRUE)
+
+# Step 4: Within-condition enrichment analysis for Familiar and Novel conditions
+condition_list <- metadata$Condition
+
+# Define function to calculate p-values for each gene
+calculate_pvalues <- function(condition_name) {
+  apply(enrichment_ratios[, condition_list == condition_name], 1, function(row) {
+    t.test(row[condition_list == condition_name & metadata$Type == "IP"],
+           row[condition_list == condition_name & metadata$Type == "Input"],
+           paired = TRUE)$p.value
+  })
+}
+
+# Compute p-values for Familiar and Novel conditions
+familiar_p_values <- calculate_pvalues("Familiar")
+novel_p_values <- calculate_pvalues("Novel")
+
+# Adjust p-values using Benjamini-Hochberg correction
+familiar_adjusted_p_values <- p.adjust(familiar_p_values, method = "BH")
+novel_adjusted_p_values <- p.adjust(novel_p_values, method = "BH")
+
+# Store results
+familiar_results <- data.frame(
+  Gene = rownames(enrichment_ratios),
+  P_Value = familiar_p_values,
+  Adjusted_P_Value = familiar_adjusted_p_values
+)
+
+novel_results <- data.frame(
+  Gene = rownames(enrichment_ratios),
+  P_Value = novel_p_values,
+  Adjusted_P_Value = novel_adjusted_p_values
+)
+
+# Step 5: Between-condition enrichment analysis (Familiar vs Novel)
+mean_er_familiar <- rowMeans(enrichment_ratios[, condition_list == "Familiar"])
+mean_er_novel <- rowMeans(enrichment_ratios[, condition_list == "Novel"])
+
+# Calculate differential enrichment ratio (dER)
+differential_er <- mean_er_novel / mean_er_familiar
+
+# Compute p-values for condition comparison (unpaired t-test)
+p_values <- apply(enrichment_ratios, 1, function(row) {
+  t.test(row[condition_list == "Familiar"], row[condition_list == "Novel"], paired = FALSE)$p.value
+})
+
+# Adjust p-values
+adjusted_p_values <- p.adjust(p_values, method = "BH")
+
+# Store results
+between_condition_results <- data.frame(
+  Gene = rownames(enrichment_ratios),
+  Mean_ER_Familiar = mean_er_familiar,
+  Mean_ER_Novel = mean_er_novel,
+  dER = differential_er,
+  P_Value = p_values,
+  Adjusted_P_Value = adjusted_p_values
+)
+
+# Filter significant results based on adjusted p-value and log2 fold change
+Sig_bc_results <- between_condition_results[
+  between_condition_results$Adjusted_P_Value < 0.05 & abs(log2(between_condition_results$dER)) > 1, ]
+
+# Save results
+write.csv(familiar_results, "within_condition_results_familiar.csv", row.names = FALSE)
+write.csv(novel_results, "within_condition_results_novel.csv", row.names = FALSE)
+write.csv(between_condition_results, "between_condition_results.csv", row.names = FALSE)
+write.csv(Sig_bc_results, "significant_between_condition_results.csv", row.names = FALSE)
+
+# Step 6: Visualizations
+
+# Volcano Plot
+ggplot(between_condition_results, aes(x = log2(dER), y = -log10(Adjusted_P_Value))) +
+  geom_point(alpha = 0.5) +
+  geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "red") +
+  labs(title = "Volcano Plot", x = "Log2 Differential Enrichment Ratio", y = "-Log10 Adjusted P-value")
+
+# Heatmap of significant genes
+significant_genes <- Sig_bc_results$Gene
+heatmap_data <- enrichment_ratios[rownames(enrichment_ratios) %in% significant_genes, ]
+pheatmap(heatmap_data, cluster_rows = TRUE, cluster_cols = TRUE,
+         main = "Heatmap of Significant Enrichment Ratios")
+
+# Scatter Plot for Input vs IP normalized counts
+scatter_data <- data.frame(
+  Gene = rownames(norm_input_counts),
+  Input = rowMeans(norm_input_counts),
+  IP = rowMeans(ip_counts),
+  Significant = rownames(norm_input_counts) %in% Sig_bc_results$Gene
+)
+
+ggplot(scatter_data, aes(x = log10(Input + 1), y = log10(IP + 1), color = Significant)) +
+  geom_point(alpha = 0.6) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "grey") +
+  scale_color_manual(values = c("TRUE" = "red", "FALSE" = "black")) +
+  labs(
+    title = "Scatter Plot: Input vs IP Enrichment",
+    x = "Log10 Normalized Input Counts",
+    y = "Log10 Normalized IP Counts"
+  ) +
+  theme_minimal()
