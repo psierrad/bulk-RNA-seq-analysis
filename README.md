@@ -20,7 +20,9 @@ Generic script for installing FastQC, setting up input and output paths, and run
 5. Deduplication with **FastUniq**
 6. Second Quality Check with FastQC  
 </details>
-### 2. Procesing
+
+<details>
+  <summary>### 2. Processing</summary>
 ### **Pipeline Steps**  
 
 1. Install Required Programs and Libraries (Run Once)
@@ -36,7 +38,7 @@ Generic script for installing FastQC, setting up input and output paths, and run
 </details>
 
 <details>
-### 3. GO ANALYSIS-R --lines to modify:
+  <summary>### 3. GO Analysis (R) - Lines to Modify</summary>
 
 1. **Metadata file:** --- Line 68:
 file_path <- "/data/paula/Paula/R_studio/go_analysis/gene_counts.csv"
@@ -81,8 +83,10 @@ condition_code <- ifelse(condition == "Novel", "N", "F")  # NOVEL → N, FAMILIA
    type_code <- ifelse(type == "input", "INPT", "IP")  # INPUT → INPT, IP → IP
    column_name <- paste(condition_code, type_code, sep = "_")
 
+</details>
 
-### 4. DESeq2 analysis
+<details>
+  <summary>### 4. DESeq2 analysis</summary>
 To adapt this script to different experiments, modify:
 
 Metadata file: Ensure it has "Sample", "Condition", and "Type" columns.
