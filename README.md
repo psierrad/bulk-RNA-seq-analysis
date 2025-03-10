@@ -1,7 +1,6 @@
 # bulk-RNA-seq-analysis
 
-
-  <summary>### 1. FastQC </summary>
+<summary>### 1. FastQC </summary>
 <details>
 *Installation & Execution* 
 Generic script for installing FastQC, setting up input and output paths, and running quality control on all **.fastq.gz** files in a specified directory.
