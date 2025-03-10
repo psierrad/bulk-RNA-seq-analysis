@@ -10,9 +10,9 @@
 │   └── Sort the aligned sequences (Samtools)​
 │   └──Read counting​:  FeatureCounts​
 ├── **Differential Expression​**  
-│   ├── GO analysis 
+│   └── GO analysis 
 │   └── DESeq2 (Normalization & Analysis)​ 
-└─── Visualization in R ​
+    └──  Visualization in R ​
 
 <details>
   <summary> 1. FastQC</summary>
