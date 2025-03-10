@@ -1,4 +1,18 @@
 # bulk-RNA-seq-analysis
+​
+├── Pre-Processing 
+│   ├── Quality Control: FastQC 
+│   ├── Adjust the data & 2nd FastQC (if needed)
+├── Processing 
+│   ├── Alignment​: Hisat2 (M. musculus grcm38_snp_tran)​
+│   ├── Sort the aligned sequences (Samtools)​
+    ├── Read counting​:  FeatureCounts​
+├── Differential Expression​
+│   ├── GO analysis​
+│   ├── DESeq2 (Normalization & Analysis)​
+└─── Visualization in R ​
+
+
 <details>
   <summary> 1. FastQC</summary>
 
