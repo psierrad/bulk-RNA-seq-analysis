@@ -19,12 +19,12 @@
   <summary> 1. FastQC</summary>
 
 *Installation & Execution* 
-Generic script for installing FastQC, setting up input and output paths, and running quality control on all **.fastq.gz** files in a specified directory.
 
 1. Requirements
   + System Packages: gzip, cutadapt, fastp, fastqc, fastuniq, STAR
   + Input Files: Paired-end .fastq.gz files with _R1_001.fastq.gz and _R2_001.fastq.gz format.
-### **Input and Output Summary Table**
+    
+### **Input and Output Summary**
 
 | **Step**               | **Input Folder/Files**                        | **Output Folder/Files**                     | **Requirements**                     |
 |-----------------------|------------------------------------------------|------------------------------------------------|---------------------------------------------|
