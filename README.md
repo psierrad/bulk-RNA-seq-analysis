@@ -18,7 +18,8 @@
   <summary> 1. FastQC</summary>
   
 ### **FastQC input-output**
-
+1. Create folder: fastq 🗂️
+2. `.fastq.gz` files in /path/to/your/fastq/files
 
 | **Category**       | **Details**                        |
 |--------------------|------------------------------------|
@@ -75,7 +76,7 @@
 <details>
   <summary>3. GO Analysis (R)</summary>
   
-1. Create folder: go_analysis 🚀
+1. Create folder: go_analysis 🗂️
 2. gene_count.csv file in your/path/go_analysis
 
 ### **GO Analysis Input/Output**
