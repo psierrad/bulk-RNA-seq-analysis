@@ -82,9 +82,9 @@
 
 | **Category**      | **Details** |
 |-------------------|--------------|
-| **Input Folder**    | `/data/paula/Paula/R_studio/go_analysis/` |
+| **Input Folder**    | `/your/folder/R_studio/go_analysis/` |
 | **Input Files**     | `metadata.csv`<br>`gene_counts.csv` |
-| **Output Folder**   | `/data/paula/Paula/R_studio/go_analysis/` |
+| **Output Folder**   | `/your/folder/R_studio/go_analysis/` |
 | **Output Files**    | `<Condition1>_<Type1>_vs_<Condition2>_<Type2>_go_enrichment_results.csv` (GO enrichment result CSV for each condition comparison) |
 | **Requirements**    | R libraries: `clusterProfiler`, `org.Mm.eg.db`, `readr`, `ggplot2`, `dplyr` |
 | **Input Data Description** | **`metadata.csv`** - Contains `Sample`, `Condition`, and `Type` labels<br>**`gene_counts.csv`** - Contains gene expression data with sample-specific columns (`F_INPT`, `F_IP`, `N_INPT`, `N_IP`) |
