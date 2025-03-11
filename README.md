@@ -18,7 +18,7 @@
 <details>
   <summary> 1. FastQC</summary>
   
-### **Summary Table FastQC input-output**
+### **FastQC input-output**
 
 | **Category**          | **Details** |
 |-----------------------|--------------|
@@ -38,7 +38,7 @@
 + System Packages: gzip, cutadapt, fastp, fastqc, fastuniq, STAR
 + Input Files: Paired-end .fastq.gz files with _R1_001.fastq.gz and _R2_001.fastq.gz format.
     
-### **Input and Output Summary**
+### **Pre-processing Input and Output Summary**
 
 | **Step**               | **Input Folder/Files**                        | **Output Folder/Files**                     | **Requirements**                     |
 |-----------------------|------------------------------------------------|------------------------------------------------|---------------------------------------------|
