@@ -8,7 +8,7 @@
 │   ├── 2.1 Alignment: Hisat2 (M. musculus grcm38_snp_tran)  
 │   ├── 2.2 Sorting Aligned Sequences: Samtools  
 │   └── 2.3 Read Counting: FeatureCounts  
-├── ** Differential Expression**  
+├── **Differential Expression**  
 │   ├── 3. GO Analysis  
 │   ├── 4. DESeq2 (Normalization & Analysis)  
 │   └── 4.1 Visualization in R  
