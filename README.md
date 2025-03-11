@@ -5,13 +5,13 @@
 │   ├── 1. FastQC: Quality Control  
 │   └── 1.1 Pre-processing: Data Adjustment & 2nd FastQC (if needed)  
 ├── **2. Processing**  
-│   ├── Alignment: Hisat2 (M. musculus grcm38_snp_tran)  
-│   ├── Sorting Aligned Sequences: Samtools  
-│   └── Read Counting: FeatureCounts  
-├── **Differential Expression**  
+│   ├── + Alignment: Hisat2 (M. musculus grcm38_snp_tran)  
+│   ├── + Sorting Aligned Sequences: Samtools  
+│   └── + Read Counting: FeatureCounts  
+├── ** Differential Expression**  
 │   ├── 3. GO Analysis  
 │   ├── 4. DESeq2 (Normalization & Analysis)  
-│   └── Visualization in R  
+│   └── + Visualization in R  
 
 
 <details>
