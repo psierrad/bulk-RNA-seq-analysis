@@ -98,6 +98,35 @@
 <details>
   <summary>4. DESeq2 analysis</summary>
 To adapt this script to different experiments, modify:
+Here’s a clear and structured Markdown table summarizing the **inputs**, **requirements**, and **outputs** for your workflow, formatted for easy visualization on GitHub:  
+
+```markdown
+## 📋 Workflow Summary
+
+| Step                        | Input Files               | Requirements                             | Output Files                               |
+|----------------------------|---------------------------|-------------------------------------------|--------------------------------------------|
+| **Step 1: Load Data**        | `counts_file.csv`, `metadata_file.csv` | `tidyverse`, `DESeq2`, `pheatmap`       | N/A                                        |
+| **Step 2: Normalize Input**  | `counts_file.csv`, `metadata_file.csv` | DESeq2 (Normalization)                    | Normalized Input Counts (In-memory object) |
+| **Step 3: Enrichment Ratios**| Normalized Input Counts, IP Counts   | Metadata with 'Sample', 'Condition', 'Type'| `enrichment_ratios.csv`                    |
+| **Step 4: Within-condition Analysis** | `enrichment_ratios.csv`    | Correct Sample Order in Metadata           | `within_condition_results_familiar.csv`<br>`within_condition_results_novel.csv` |
+| **Step 5: Between-condition Analysis**| `enrichment_ratios.csv`    | Metadata conditions labeled as 'Familiar' and 'Novel' | `between_condition_results.csv`<br>`significant_between_condition_results.csv` |
+| **Step 6: Visualizations**   | `between_condition_results.csv`, `enrichment_ratios.csv` | ggplot2, pheatmap                          | Volcano Plot<br>Heatmap<br>Scatter Plot   |
+```
+
+### Key Notes:
+✅ **Input Files**:
+- `counts_file.csv`: Raw gene counts with genes as rows and samples as columns.  
+- `metadata_file.csv`: Metadata containing `Sample`, `Condition`, and `Type`.  
+
+✅ **Requirements**:
+- Libraries: `tidyverse`, `DESeq2`, `pheatmap`.  
+- Metadata must match sample order and include correct labels.  
+
+✅ **Output Files**:
+- Multiple CSV files with results for each analysis step.  
+- Visual outputs include Volcano plot, Heatmap, and Scatter plot.  
+
+This table is GitHub-friendly and provides a clear reference for users modifying or applying this workflow in future experiments. 🚀
 
 1. Metadata file: Ensure it has "Sample", "Condition", and "Type" columns. --- Lines 11-12
 ```
