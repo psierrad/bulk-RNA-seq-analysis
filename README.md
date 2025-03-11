@@ -36,6 +36,9 @@
 *Requirements*
 + **System Packages**: gzip, cutadapt, fastp, fastqc, fastuniq, STAR
 + **Input Files**: Paired-end .fastq.gz files with _R1_001.fastq.gz and _R2_001.fastq.gz format.
++ **ADJUST**
+  --line 9 # Define base directory
+  --line 30 # Step 1: Run Cutadapt to trim adapters
     
 ### **Pre-processing Input and Output**
 
