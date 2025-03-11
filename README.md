@@ -20,16 +20,15 @@
   
 ### **FastQC input-output**
 
-| **Category**          | **Details** |
-|-----------------------|--------------|
-| **Input Folders**       | `/data/paula/Paula/Folder_data` (DATA_DIR) <br> `/data/paula/Paula/Folder_data/deduplicated` (DEDUP_DIR) |
-| **Input Files**         | `.fastq.gz` files in both `DATA_DIR` and `DEDUP_DIR` |
-| **Output Folder**       | `/data/paula/Paula/Folder_data/FastQC_results` (OUTPUT_DIR) |
-| **Output Files**        | FastQC reports (`.html`, `.zip`) for each `.fastq.gz` file |
-| **Required Programs**   | `gzip`, `fastqc` |
-| **System Requirements** | Linux environment with terminal access |
-| **Execution Steps**     | 1. Ensures `.fastq.gz` files are properly compressed <br> 2. Runs FastQC on valid files <br> 3. Saves reports in the output directory |
+Here’s a clear summary in table format for your GitHub visualization:  
 
+| **Category**       | **Details**                        |
+|--------------------|------------------------------------|
+| **Input Folder**     | `/path/to/your/fastq/files` (Change this to your actual FASTQ directory) |
+| **Input Files**      | `.fastq.gz` files |
+| **Output Folder**    | `/path/to/output/directory` (Change this to your desired output location) |
+| **Output Files**     | FastQC reports (`.html`, `.zip`) for each `.fastq.gz` file |
+| **Requirements**     | - `fastqc` (automatically installed if missing)  <br> - Sufficient disk space for output files <br> - Appropriate permissions to read/write in specified directories |
 
 
 <summary>1.1 Pre-processing (if needed)</summary>
@@ -38,7 +37,7 @@
 + System Packages: gzip, cutadapt, fastp, fastqc, fastuniq, STAR
 + Input Files: Paired-end .fastq.gz files with _R1_001.fastq.gz and _R2_001.fastq.gz format.
     
-### **Pre-processing Input and Output Summary**
+### **Pre-processing Input and Output**
 
 | **Step**               | **Input Folder/Files**                        | **Output Folder/Files**                     | **Requirements**                     |
 |-----------------------|------------------------------------------------|------------------------------------------------|---------------------------------------------|
