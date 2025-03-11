@@ -41,8 +41,8 @@
 | **Step**               | **Input Folder/Files**                        | **Output Folder/Files**                     | **Requirements**                     |
 |-----------------------|------------------------------------------------|------------------------------------------------|---------------------------------------------|
 | **Installation**        | N/A                                             | Installed programs: gzip, cutadapt, fastp, fastqc, fastuniq, STAR | sudo apt install, pip install             |
-| **Step 0: Decompression**| `/data/paula/Paula/Folder_data/*.fastq.gz`     | Decompressed `.fastq` files in the same folder | `gzip` tool                               |
-| **Step 1: Adapter Trimming** | `/data/paula/Paula/Folder_data/*_R1_001.fastq`, `_R2_001.fastq` | Trimmed FASTQ files: `*_trimmed_R1.fastq`, `*_trimmed_R2.fastq` | `cutadapt` tool                            |
+| **Step 0: Decompression**| `/path/to/your/Folder_data/*.fastq.gz`     | Decompressed `.fastq` files in the same folder | `gzip` tool                               |
+| **Step 1: Adapter Trimming** | `/path/to/your/Folder_data/*_R1_001.fastq`, `_R2_001.fastq` | Trimmed FASTQ files: `*_trimmed_R1.fastq`, `*_trimmed_R2.fastq` | `cutadapt` tool                            |
 | **Step 2: Quality Filtering** | Trimmed FASTQ files from Step 1             | Filtered FASTQ files: `*_filtered_R1.fastq`, `*_filtered_R2.fastq` | `fastp` tool                               |
 | **Step 3: Deduplication**    | Filtered FASTQ files from Step 2            | Deduplicated FASTQ files in `/deduplicated` folder | `fastuniq` tool                           |
 | **Step 4: FastQC Analysis**  | Deduplicated FASTQ files in `/deduplicated` | FASTQC reports in `/FastQC_results` folder    | `fastqc` tool                             |
