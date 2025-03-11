@@ -97,10 +97,9 @@
 
 <details>
   <summary>4. DESeq2 analysis</summary>
-To adapt this script to different experiments, modify:
-Here’s a clear and structured Markdown table summarizing the **inputs**, **requirements**, and **outputs** for your workflow, formatted for easy visualization on GitHub:  
 
-## 📋 Workflow Summary
+
+## 📋 DESeq2 analysis & visualization
 
 | **Step**                     | **Input Files**                  | **Requirements**                              | **Output Files**                                  |
 |------------------------------|----------------------------------|------------------------------------------------|-----------------------------------------------------|
@@ -125,7 +124,7 @@ Here’s a clear and structured Markdown table summarizing the **inputs**, **req
 - Multiple CSV files with results for each analysis step.  
 - Visual outputs include Volcano plot, Heatmap, and Scatter plot.  
 
-This table is GitHub-friendly and provides a clear reference for users modifying or applying this workflow in future experiments. 🚀
+
 
 1. Metadata file: Ensure it has "Sample", "Condition", and "Type" columns. --- Lines 11-12
 ```
