@@ -79,7 +79,7 @@
 1. Create folder: go_analysis 🗂️
 2. gene_count.csv file in your/path/go_analysis
 
-### **GO Analysis Input/Output**
+### 📋 GO Analysis Input/Output
 
 | **Category**      | **Details** |
 |-------------------|--------------|
