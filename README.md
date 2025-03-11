@@ -111,7 +111,7 @@
 | **Step 6: Visualizations**    | `between_condition_results.csv`<br>`enrichment_ratios.csv` | Libraries: `ggplot2`, `pheatmap`                | Volcano Plot<br>Heatmap<br>Scatter Plot             |
 ``
 
-✅ **Input Files**:
+**Input Files**:
 - `counts_file.csv`: Raw gene counts with genes as rows and samples as columns.  
 - `metadata_file.csv`: Metadata containing `Sample`, `Condition`, and `Type`.  --- Lines 11-12
 
