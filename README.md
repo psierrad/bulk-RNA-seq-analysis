@@ -78,7 +78,7 @@
 1. Create folder: go_analysis 🚀
 2. gene_count.csv file in your/path/go_analysis
 
-### **Input/Output Summary Table for GitHub**
+### **GO Analysis Input/Output**
 
 | **Category**      | **Details** |
 |-------------------|--------------|
