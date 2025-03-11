@@ -17,6 +17,7 @@
 
 <details>
   <summary> 1. FastQC</summary>
+  
 ### **Summary Table for GitHub README**
 
 | **Category**          | **Details** |
@@ -28,6 +29,7 @@
 | **Required Programs**   | `gzip`, `fastqc` |
 | **System Requirements** | Linux environment with terminal access |
 | **Execution Steps**     | 1. Ensures `.fastq.gz` files are properly compressed <br> 2. Runs FastQC on valid files <br> 3. Saves reports in the output directory |
+
 
 
 <summary>1.1 Pre-processing (if needed)</summary>
