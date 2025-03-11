@@ -2,15 +2,15 @@
 
 ## 📂 Project Directory  
 ├── **Pre-processing**  
-│   ├── FastQC: Quality Control  
-│   └── Pre-processing: Data Adjustment & 2nd FastQC (if needed)  
-├── **Processing**  
+│   ├── 1. FastQC: Quality Control  
+│   └── 1.1 Pre-processing: Data Adjustment & 2nd FastQC (if needed)  
+├── **2. Processing**  
 │   ├── Alignment: Hisat2 (M. musculus grcm38_snp_tran)  
 │   ├── Sorting Aligned Sequences: Samtools  
 │   └── Read Counting: FeatureCounts  
 ├── **Differential Expression**  
-│   ├── GO Analysis  
-│   ├── DESeq2 (Normalization & Analysis)  
+│   ├── 3. GO Analysis  
+│   ├── 4. DESeq2 (Normalization & Analysis)  
 │   └── Visualization in R  
 
 
