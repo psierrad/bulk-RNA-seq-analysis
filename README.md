@@ -111,35 +111,12 @@
 | **Step 6: Visualizations**    | `between_condition_results.csv`<br>`enrichment_ratios.csv` | Libraries: `ggplot2`, `pheatmap`                | Volcano Plot<br>Heatmap<br>Scatter Plot             |
 ``
 
-### Key Notes:
 ✅ **Input Files**:
 - `counts_file.csv`: Raw gene counts with genes as rows and samples as columns.  
-- `metadata_file.csv`: Metadata containing `Sample`, `Condition`, and `Type`.  
+- `metadata_file.csv`: Metadata containing `Sample`, `Condition`, and `Type`.  --- Lines 11-12
 
-✅ **Requirements**:
-- Libraries: `tidyverse`, `DESeq2`, `pheatmap`.  
-- Metadata must match sample order and include correct labels.  
-
-✅ **Output Files**:
-- Multiple CSV files with results for each analysis step.  
-- Visual outputs include Volcano plot, Heatmap, and Scatter plot.  
-
-
-
-1. Metadata file: Ensure it has "Sample", "Condition", and "Type" columns. --- Lines 11-12
-```
-raw_counts <- read.csv("counts_file.csv", row.names = 1)  # Ensure first column contains gene names
-metadata <- read.csv("metadata_file.csv")
-```
-3. Conditions: Update "Familiar" and "Novel" if using new conditions.
-4. Types: Ensure "Input" and "IP" match dataset terminology.
-```
-  input_metadata <- metadata[metadata$Type == "Input", ]  # Ensure 'Type' values match exactly
-input_counts <- raw_counts[, input_metadata$Sample]
-```
-
-6. Thresholds: Adjust p-value cutoff (0.05) and log2 fold change (>1) as needed.
-7. Normalization method: If needed, change from DESeq2-based normalization to another approach.
+- Thresholds: Adjust p-value cutoff (0.05) and log2 fold change (>1) as needed.
+- Normalization method: If needed, change from DESeq2-based normalization to another approach.
 
 <summary>4.1 Visualization </summary>
 
