@@ -18,7 +18,7 @@
 <details>
   <summary> 1. FastQC</summary>
   
-### **Summary Table for GitHub README**
+### **Summary Table FastQC input-output**
 
 | **Category**          | **Details** |
 |-----------------------|--------------|
