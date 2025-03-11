@@ -32,9 +32,9 @@
 
 <summary>1.1 Pre-processing (if needed)</summary>
 
-1. Requirements
-+ System Packages: gzip, cutadapt, fastp, fastqc, fastuniq, STAR
-+ Input Files: Paired-end .fastq.gz files with _R1_001.fastq.gz and _R2_001.fastq.gz format.
+*Requirements*
++ **System Packages**: gzip, cutadapt, fastp, fastqc, fastuniq, STAR
++ **Input Files**: Paired-end .fastq.gz files with _R1_001.fastq.gz and _R2_001.fastq.gz format.
     
 ### **Pre-processing Input and Output**
 
