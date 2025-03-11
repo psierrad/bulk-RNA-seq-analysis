@@ -1,7 +1,6 @@
 # bulk-RNA-seq-analysis
 
 ## 📂 Project Directory  
-│  
 ├── **Pre-processing**  
 │   ├── Quality Control: FastQC  
 │   └── Data Adjustment & 2nd FastQC (if needed)  
