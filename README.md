@@ -2,8 +2,8 @@
 
 ## 📂 Project Directory  
 ├── **Pre-processing**  
-│   ├── Quality Control: FastQC  
-│   └── Data Adjustment & 2nd FastQC (if needed)  
+│   ├── FastQC: Quality Control  
+│   └── Pre-processing: Data Adjustment & 2nd FastQC (if needed)  
 ├── **Processing**  
 │   ├── Alignment: Hisat2 (M. musculus grcm38_snp_tran)  
 │   ├── Sorting Aligned Sequences: Samtools  
@@ -54,16 +54,23 @@
   <summary> 2. Processing</summary>
 ### **Pipeline Steps**  
 
-1. Install Required Programs and Libraries (Run Once)
-   + *Verify Installations*
-   +  Define Directory Paths
-   + Create Necessary Directories  
-2. **STAR** Genome Indexing (Run Once)
-   + STAR Alignment
-3. BAM Quality Control using **SAMtools**
-   + Generate Alignment Summary (SAMtools Output)  
-5. Gene Expression Quantification using **FeatureCounts**  
-6. Add Gene Symbols to Gene Counts
+  ### Key Notes
+- **Input Folders:** Primary input paths are `/gene_count_file/path*` and `/data/paula/Paula/Folder_data`.
+- **Output Folders:** Results are stored under `/data/paula/Paula/Folder_data/STAR_results/`.
+- **Dependencies:** The code ensures all required tools are installed and verified before execution.
+
+
+| **Step** | **Input Folder(s)** | **Input Files** | **Output Folder(s)** | **Output Files** | **Requirements** |
+|------------|------------------------|--------------------|----------------------------|-----------------------|--------------------|
+| **1. Installation** | N/A | N/A | N/A | Installed tools | `wget`, `curl`, `unzip`, `gzip`, `jq`, `samtools`, `subread`, `fastqc`, `cutadapt`, `fastp`, `fastuniq`, `STAR` |
+| **2. Genome Indexing** | `/Reference/STAR_Index/path` | `Mus_musculus.GRCm39.dna.primary_assembly.fa`, `Mus_musculus.GRCm39.109.gtf` | `/Reference/STAR_Index/path` | Genome index files (e.g., `SA`, `.txt`, `.out`) | `STAR` |
+| **3. STAR Alignment** | `/gene_count_file/path/deduplicated/pathFolder` | `*_unique_R1.fastq.gz`, `*_unique_R2.fastq.gz` | `/gene_count_file/path/STAR_results/path` | `.bam` files (e.g., `*_Aligned.sortedByCoord.out.bam`) | `STAR` |
+| **4. BAM QC with Samtools** | `/gene_count_file/path/STAR_results/path` | `.bam` files from STAR alignment | Same as input folder | `.txt` QC files (e.g., `*_alignment_stats.txt`) | `samtools` |
+| **5. Alignment Summary CSV** | `/gene_count_file/path/STAR_results/path` | `.txt` QC files from Samtools | Same as input folder | `alignment_summary.csv` | `samtools`, `awk` |
+| **6. FeatureCounts - Gene Quantification** | `/gene_count_file/path/STAR_results/path` | `.bam` files from STAR alignment, `Mus_musculus.GRCm39.109.gtf` | Same as input folder | `gene_counts.txt`, `gene_counts.csv` | `featureCounts` (from `subread`) |
+| **7. Gene Symbol Mapping** | `/gene_count_file/path/STAR_results/` | `gene_counts.csv` | Same as input folder | `gene_counts_with_symbols.csv` | `curl`, `jq` |
+
+
 </details>
 
 <details>
