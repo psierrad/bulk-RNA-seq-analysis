@@ -17,14 +17,23 @@
 
 <details>
   <summary> 1. FastQC</summary>
+### **Summary Table for GitHub README**
 
-*Installation & Execution* 
+| **Category**          | **Details** |
+|-----------------------|--------------|
+| **Input Folders**       | `/data/paula/Paula/Folder_data` (DATA_DIR) <br> `/data/paula/Paula/Folder_data/deduplicated` (DEDUP_DIR) |
+| **Input Files**         | `.fastq.gz` files in both `DATA_DIR` and `DEDUP_DIR` |
+| **Output Folder**       | `/data/paula/Paula/Folder_data/FastQC_results` (OUTPUT_DIR) |
+| **Output Files**        | FastQC reports (`.html`, `.zip`) for each `.fastq.gz` file |
+| **Required Programs**   | `gzip`, `fastqc` |
+| **System Requirements** | Linux environment with terminal access |
+| **Execution Steps**     | 1. Ensures `.fastq.gz` files are properly compressed <br> 2. Runs FastQC on valid files <br> 3. Saves reports in the output directory |
 
 
 <summary>1.1 Pre-processing (if needed)</summary>
 1. Requirements
-  + System Packages: gzip, cutadapt, fastp, fastqc, fastuniq, STAR
-  + Input Files: Paired-end .fastq.gz files with _R1_001.fastq.gz and _R2_001.fastq.gz format.
++ System Packages: gzip, cutadapt, fastp, fastqc, fastuniq, STAR
++ Input Files: Paired-end .fastq.gz files with _R1_001.fastq.gz and _R2_001.fastq.gz format.
     
 ### **Input and Output Summary**
 
