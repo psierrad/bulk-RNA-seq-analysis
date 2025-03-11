@@ -74,24 +74,25 @@
 
 <details>
   <summary>3. GO Analysis (R)</summary>
-To adapt this script to different experiments, modify the lines:
-1. **Metadata file:** --- Line 68:
-file_path <- "/data/paula/Paula/R_studio/go_analysis/gene_counts.csv"
+  
+1. Create folder: go_analysis 🚀
+2. gene_count.csv file in your/path/go_analysis
 
-   - Contains columns: "Sample", "Condition", and "Type"  
-   - Used to map experimental conditions and types  
-   
-2. **Gene counts file:** --- Line 68:
- ```  
-file_path <- "/data/paula/Paula/R_studio/go_analysis/gene_counts.csv"
- ``` 
-   - Contains expression data for different conditions and types  
-   - Used to extract gene sets for GO analysis  
+### **Input/Output Summary Table for GitHub**
 
-   output file---Line 98:
-```
-output_file <- paste0("/data/paula/Paula/R_studio/go_analysis/", condition1, "_", type1, "_vs_", condition2, "_", type2, "_go_enrichment_results.csv")
-```
+| **Category**      | **Details** |
+|-------------------|--------------|
+| **Input Folder**    | `/data/paula/Paula/R_studio/go_analysis/` |
+| **Input Files**     | `metadata.csv`<br>`gene_counts.csv` |
+| **Output Folder**   | `/data/paula/Paula/R_studio/go_analysis/` |
+| **Output Files**    | `<Condition1>_<Type1>_vs_<Condition2>_<Type2>_go_enrichment_results.csv` (GO enrichment result CSV for each condition comparison) |
+| **Requirements**    | R libraries: `clusterProfiler`, `org.Mm.eg.db`, `readr`, `ggplot2`, `dplyr` |
+| **Input Data Description** | **`metadata.csv`** - Contains `Sample`, `Condition`, and `Type` labels<br>**`gene_counts.csv`** - Contains gene expression data with sample-specific columns (`F_INPT`, `F_IP`, `N_INPT`, `N_IP`) |
+| **Process**         | 1. Load metadata to map sample conditions and types<br>2. Read gene count data<br>3. Perform GO enrichment analysis for each condition & type combination<br>4. Visualize the top enriched GO terms with dot plots |
+| **Output Data Description** | GO enrichment CSV files with detailed ontology information (BP, MF, CC), adjusted p-values, and gene counts |
+| **Visualization**   | Dot plots for top GO terms in each category (BP, MF, CC) |
+
+
 #### **Processes:**
 1. **Read and process metadata**
    - Maps "Condition" (Novel/Familiar) and "Type" (IP/Input) to corresponding columns in gene count data  
