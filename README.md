@@ -30,7 +30,7 @@
 | **Requirements**     | - `fastqc` (automatically installed if missing)  <br> - Sufficient disk space for output files <br> - Appropriate permissions to read/write in specified directories |
 
 
-<summary>1.1 Pre-processing (if needed)</summary>
+<summary>1.1 Pre-processing _(_if needed_)_</summary>
 
 *Requirements*
 + **System Packages**: gzip, cutadapt, fastp, fastqc, fastuniq, STAR
