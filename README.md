@@ -33,6 +33,7 @@
 
 
 <summary>1.1 Pre-processing (if needed)</summary>
+
 1. Requirements
 + System Packages: gzip, cutadapt, fastp, fastqc, fastuniq, STAR
 + Input Files: Paired-end .fastq.gz files with _R1_001.fastq.gz and _R2_001.fastq.gz format.
@@ -48,8 +49,6 @@
 | **Step 3: Deduplication**    | Filtered FASTQ files from Step 2            | Deduplicated FASTQ files in `/deduplicated` folder | `fastuniq` tool                           |
 | **Step 4: FastQC Analysis**  | Deduplicated FASTQ files in `/deduplicated` | FASTQC reports in `/FastQC_results` folder    | `fastqc` tool                             |
 | **Step 5: STAR Genome Indexing**| Genome FASTA file, GTF file               | Indexed genome data in `/GENOME_DIR` folder    | `STAR` tool                                |
-
-
 
 </details>
 
