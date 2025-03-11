@@ -20,11 +20,23 @@
 
 *Installation & Execution* 
 Generic script for installing FastQC, setting up input and output paths, and running quality control on all **.fastq.gz** files in a specified directory.
-1. Install FastQC (if not installed)
-2. Set input and output paths
-   + Create output directory if it doesn't exist
-4. Verify FASTQ files exist
-5. Run FastQC on all .fastq.gz files
+
+1. Requirements
+  + System Packages: gzip, cutadapt, fastp, fastqc, fastuniq, STAR
+  + Input Files: Paired-end .fastq.gz files with _R1_001.fastq.gz and _R2_001.fastq.gz format.
+### **Input and Output Summary Table**
+
+```markdown
+| **Step**                | **Input Folder/Files**                         | **Output Folder/Files**                        | **Requirements**                  |
+|-------------------------|------------------------------------------------|------------------------------------------------|-----------------------------------|
+| **Environment Setup**     | N/A                                             | N/A                                             | `gzip`, `cutadapt`, `fastp`, `fastqc`, `fastuniq`, `star` |
+| **Decompression**        | `/data/paula/Paula/Folder_data/*.fastq.gz`     | Decompressed `.fastq` files in the same folder  | `gzip` |
+| **Adapter Trimming**      | Decompressed `.fastq` files                   | `_trimmed_R1.fastq`, `_trimmed_R2.fastq`        | `cutadapt` |
+| **Quality Filtering**     | Trimmed `.fastq` files                        | `_filtered_R1.fastq`, `_filtered_R2.fastq`, `.json`, `.html` reports | `fastp` |
+| **Deduplication**         | Filtered `.fastq` files                       | `/deduplicated/*_unique_R1.fastq.gz` and `_unique_R2.fastq.gz` | `fastuniq` |
+| **FastQC Analysis**       | `/deduplicated/*.fastq.gz`                    | `/FastQC_results/*_fastqc.html`, `_fastqc.zip`   | `fastqc` |
+| **Genome Indexing**       | Genome FASTA (`.fa`) and GTF file (`.gtf`)    | Indexed genome files in `/GENOME_DIR/SA/`       | `STAR` |
+```
 
 <summary>1.1 Pre-processing (if needed)</summary>
 
