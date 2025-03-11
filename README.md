@@ -20,7 +20,6 @@
   
 ### **FastQC input-output**
 
-Here’s a clear summary in table format for your GitHub visualization:  
 
 | **Category**       | **Details**                        |
 |--------------------|------------------------------------|
