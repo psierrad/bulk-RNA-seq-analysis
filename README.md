@@ -54,8 +54,8 @@
   <summary> 2. Processing</summary>
 
   ### Key Notes
-- **Input Folders:** Primary input paths are `/gene_count_file/path*` and `/data/paula/Paula/Folder_data`.
-- **Output Folders:** Results are stored under `/data/paula/Paula/Folder_data/STAR_results/`.
+- **Input Folders:** Primary input paths are `/gene_count_file/path*` and `/path/to/your/Folder_data`.
+- **Output Folders:** Results are stored under `/path/to/your/Folder_data/STAR_results/`.
 - **Dependencies:** The code ensures all required tools are installed and verified before execution.
 
 
