@@ -52,7 +52,6 @@
 
 <details>
   <summary> 2. Processing</summary>
-### **Pipeline Steps**  
 
   ### Key Notes
 - **Input Folders:** Primary input paths are `/gene_count_file/path*` and `/data/paula/Paula/Folder_data`.
