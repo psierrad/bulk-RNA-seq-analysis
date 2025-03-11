@@ -100,18 +100,17 @@
 To adapt this script to different experiments, modify:
 Here’s a clear and structured Markdown table summarizing the **inputs**, **requirements**, and **outputs** for your workflow, formatted for easy visualization on GitHub:  
 
-```markdown
 ## 📋 Workflow Summary
 
-| Step                        | Input Files               | Requirements                             | Output Files                               |
-|----------------------------|---------------------------|-------------------------------------------|--------------------------------------------|
-| **Step 1: Load Data**        | `counts_file.csv`, `metadata_file.csv` | `tidyverse`, `DESeq2`, `pheatmap`       | N/A                                        |
-| **Step 2: Normalize Input**  | `counts_file.csv`, `metadata_file.csv` | DESeq2 (Normalization)                    | Normalized Input Counts (In-memory object) |
-| **Step 3: Enrichment Ratios**| Normalized Input Counts, IP Counts   | Metadata with 'Sample', 'Condition', 'Type'| `enrichment_ratios.csv`                    |
-| **Step 4: Within-condition Analysis** | `enrichment_ratios.csv`    | Correct Sample Order in Metadata           | `within_condition_results_familiar.csv`<br>`within_condition_results_novel.csv` |
-| **Step 5: Between-condition Analysis**| `enrichment_ratios.csv`    | Metadata conditions labeled as 'Familiar' and 'Novel' | `between_condition_results.csv`<br>`significant_between_condition_results.csv` |
-| **Step 6: Visualizations**   | `between_condition_results.csv`, `enrichment_ratios.csv` | ggplot2, pheatmap                          | Volcano Plot<br>Heatmap<br>Scatter Plot   |
-```
+| **Step**                     | **Input Files**                  | **Requirements**                              | **Output Files**                                  |
+|------------------------------|----------------------------------|------------------------------------------------|-----------------------------------------------------|
+| **Step 1: Load Data**         | `counts_file.csv`<br>`metadata_file.csv` | Libraries: `tidyverse`, `DESeq2`, `pheatmap`  | N/A                                                 |
+| **Step 2: Normalize Input**   | `counts_file.csv`<br>`metadata_file.csv` | DESeq2 (Normalization)                         | Normalized Input Counts (In-memory object)          |
+| **Step 3: Enrichment Ratios** | Normalized Input Counts<br>IP Counts   | Metadata with `Sample`, `Condition`, `Type`     | `enrichment_ratios.csv`                             |
+| **Step 4: Within-condition Analysis** | `enrichment_ratios.csv`        | Correct Sample Order in Metadata                | `within_condition_results_familiar.csv`<br>`within_condition_results_novel.csv` |
+| **Step 5: Between-condition Analysis** | `enrichment_ratios.csv`        | Metadata conditions labeled as 'Familiar' and 'Novel' | `between_condition_results.csv`<br>`significant_between_condition_results.csv` |
+| **Step 6: Visualizations**    | `between_condition_results.csv`<br>`enrichment_ratios.csv` | Libraries: `ggplot2`, `pheatmap`                | Volcano Plot<br>Heatmap<br>Scatter Plot             |
+``
 
 ### Key Notes:
 ✅ **Input Files**:
