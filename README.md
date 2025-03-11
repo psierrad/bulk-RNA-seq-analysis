@@ -20,6 +20,8 @@
 
 *Installation & Execution* 
 
+
+<summary>1.1 Pre-processing (if needed)</summary>
 1. Requirements
   + System Packages: gzip, cutadapt, fastp, fastqc, fastuniq, STAR
   + Input Files: Paired-end .fastq.gz files with _R1_001.fastq.gz and _R2_001.fastq.gz format.
@@ -36,15 +38,8 @@
 | **Step 4: FastQC Analysis**  | Deduplicated FASTQ files in `/deduplicated` | FASTQC reports in `/FastQC_results` folder    | `fastqc` tool                             |
 | **Step 5: STAR Genome Indexing**| Genome FASTA file, GTF file               | Indexed genome data in `/GENOME_DIR` folder    | `STAR` tool                                |
 
-<summary>1.1 Pre-processing (if needed)</summary>
 
-1. Install Required Programs and Libraries  
-2. Define Directory Paths **.fastq.gz** files
-   + Create Necessary Directories 
-3. Decompress FASTQ Files
-4. Adapter Trimming and *Quality Filtering* **(Cutadapt + Fastp)**  
-5. Deduplication with **FastUniq**
-6. Second Quality Check with FastQC  
+
 </details>
 
 <details>
