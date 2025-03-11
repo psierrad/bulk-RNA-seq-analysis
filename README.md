@@ -123,6 +123,7 @@
 
 <summary>4.1 Visualization </summary>
 
+---
 Generic Variables for Future Experiments
 + between_condition_results → Results containing enrichment ratios and significance values
 + enrichment_ratios → Table with calculated enrichment ratios
