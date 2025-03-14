@@ -104,6 +104,14 @@
 
 ## 📋 DESeq2 analysis & visualization
 
+**Input Files**:
+- `counts_file.csv`: Raw gene counts with genes as rows and samples as columns.  
+- `metadata_file.csv`: Metadata containing `Sample`, `Condition`, and `Type`.  --- Lines 11-12
+
+- Thresholds: Adjust p-value cutoff (0.05) and log2 fold change (>1) as needed.
+- Normalization method: If needed, change from DESeq2-based normalization to another approach.
+  
+
 | **Step**                     | **Input Files**                  | **Requirements**                              | **Output Files**                                  |
 |------------------------------|----------------------------------|------------------------------------------------|-----------------------------------------------------|
 | **Step 1: Load Data**         | `counts_file.csv`<br>`metadata_file.csv` | Libraries: `tidyverse`, `DESeq2`, `pheatmap`  | N/A                                                 |
@@ -113,14 +121,6 @@
 | **Step 5: Between-condition Analysis** | `enrichment_ratios.csv`        | Metadata conditions labeled as 'Familiar' and 'Novel' | `between_condition_results.csv`<br>`significant_between_condition_results.csv` |
 | **Step 6: Visualizations**    | `between_condition_results.csv`<br>`enrichment_ratios.csv` | Libraries: `ggplot2`, `pheatmap`                | Volcano Plot<br>Heatmap<br>Scatter Plot             |
 ``
-
-**Input Files**:
-- `counts_file.csv`: Raw gene counts with genes as rows and samples as columns.  
-- `metadata_file.csv`: Metadata containing `Sample`, `Condition`, and `Type`.  --- Lines 11-12
-
-- Thresholds: Adjust p-value cutoff (0.05) and log2 fold change (>1) as needed.
-- Normalization method: If needed, change from DESeq2-based normalization to another approach.
-
 <summary>4.1 Visualization </summary>
 
 ---
