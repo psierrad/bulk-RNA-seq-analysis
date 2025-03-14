@@ -106,7 +106,7 @@
 
 **Input Files**:
 - `counts_file.csv`: Raw gene counts with genes as rows and samples as columns.  
-- `metadata_file.csv`: Metadata containing `Sample`, `Condition`, and `Type`.  --- Lines 11-12
+- `metadata_file.csv`: Metadata containing `Sample`, `Condition`, and `Type`.  ---adjust Lines 11-12
 
 - Thresholds: Adjust p-value cutoff (0.05) and log2 fold change (>1) as needed.
 - Normalization method: If needed, change from DESeq2-based normalization to another approach.
