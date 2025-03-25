@@ -27,4 +27,4 @@ fi
 # 4. Run FastQC on all .fastq.gz files
 fastqc -o "$OUTPUT_DIR" -t 4 "$INPUT_DIR"/*.fastq.gz
 
-echo "✅ FastQC analysis completed. Reports are in: $OUTPUT_DIR"
+echo "FastQC analysis completed. Reports are in: $OUTPUT_DIR"
