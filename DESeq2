@@ -1,4 +1,4 @@
-## Workflow for IP enrichment analysis within conditions  (Familiar and Novel)
+## Workflow for IP enrichment analysis within conditions (Familiar and Novel)
 ## Assumption: You have a raw counts file (genes as rows, samples as columns)  
 ## Metadata file must contain 'Sample', 'Condition', and 'Type' columns  
 
